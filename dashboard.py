@@ -65,7 +65,7 @@ def _(mo):
     view_selector = mo.ui.dropdown(
         options=['Chart', 'Table'],
         value='Chart',
-        label='Select view'
+        label='View'
     )
     return (view_selector,)
 
@@ -75,7 +75,7 @@ def _(REGIONS, mo):
     region_selector = mo.ui.dropdown(
         options=['All'] + list(REGIONS.keys()),
         value='All',
-        label='Select region',
+        label='Region',
     )
     return (region_selector,)
 
@@ -85,7 +85,7 @@ def _(METRICS, mo):
     metric_selector = mo.ui.dropdown(
         options=[METRICS['VIS'], METRICS['STD'], METRICS['HOT'], METRICS['OLD']],
         value=METRICS['STD'],
-        label='Select metric',
+        label='Metric',
     )
     return (metric_selector,)
 
@@ -105,7 +105,7 @@ def _(YEAR_DICT, mo):
     start_year_selector = mo.ui.dropdown(
         options=YEAR_DICT,
         value='1992',
-        label='Select start year',
+        label='Start year',
         searchable=True,
     )
     return (start_year_selector,)
@@ -116,7 +116,7 @@ def _(YEAR_DICT, mo):
     end_year_selector = mo.ui.dropdown(
         options=dict(sorted(YEAR_DICT.items(), key=lambda item: item[0], reverse=True)),
         value='2025',
-        label='Select end year',
+        label='End year',
         searchable=True,
     )
     return (end_year_selector,)
@@ -130,7 +130,7 @@ def _(METRICS, REGIONS, pl):
         start_year = start_year_selector.value
         end_year = end_year_selector.value
 
-        visits = pl.col('visits')    
+        visits = pl.col('visits')
         year = pl.col('year').cast(pl.Int64)
 
         # Need to split this into two separate expressions
@@ -230,9 +230,7 @@ def _(alt):
 @app.cell
 def _():
     description = """
-    This dashboard is part of the [tourists](https://github.com/amanda-amy-frost/tourists) data analysis mini-project. Click on the link for more details.
-
-    In chart view, you can select a country to the right of the chart to view tabular stats for that country. Click elsewhere on the chart to cancel your selection.
+    This dashboard is part of the [tourists](https://github.com/amanda-amy-frost/tourists) data analysis mini-project. In chart view, you can select a country to the right of the chart to view tabular stats for that country. Click elsewhere on the chart to cancel your selection. See the ? tooltip to the bottom-right of the chart for more options.
     """
     return (description,)
 
@@ -289,7 +287,7 @@ def _(
 
     chart_view = mo.vstack([
         mo_chart,
-        mo_chart.value.select('year', 'hot_days', 'visits', 'dep_percent', 'scaled'),
+        mo_chart.value.select('country', 'year', 'scaled', 'visits', 'hot_days', 'dep_percent'),
     ])
 
     table_view = filtered_table(filtered)
