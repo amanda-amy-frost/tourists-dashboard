@@ -1,6 +1,15 @@
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "altair==6.0.0",
+#     "marimo>=0.23.1",
+#     "polars==1.39.3",
+# ]
+# ///
+
 import marimo
 
-__generated_with = "0.23.1"
+__generated_with = "0.23.5"
 app = marimo.App(width="full")
 
 
